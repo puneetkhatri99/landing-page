@@ -1,11 +1,49 @@
 import React, { useState } from "react";
-import herbsImg from "./assets/herbs.png";
-import oilsImg from "./assets/oils.png";
+import herbsImg from "./assets/herbs-640.jpg";
+import oilsImg from "./assets/oils-640.jpg";
 
 const CONTACT_NUMBER = "+91 6395675151";
 const MEDICINES_SOLD = "8000";
 
-export default function App() {
+const PRODUCTS = [
+  {
+    title: "Sun-Charged Herbs",
+    description:
+      "Hand-picked, naturally sun-dried herbs and vibrant spices for your daily wellbeing.",
+    image: herbsImg,
+    alt: "Sun-charged Herbs and Spices"
+  },
+  {
+    title: "Pure Oils & Extracts",
+    description:
+      "Premium, freshly pressed plant extracts and essential oils offering maximum potency.",
+    image: oilsImg,
+    alt: "Pure Oils and Extracts"
+  }
+];
+
+function ProductCard({ title, description, image, alt }) {
+  return (
+    <article className="product-item">
+      <div className="img-wrapper">
+        <img
+          src={image}
+          alt={alt}
+          className="product-img"
+          loading="lazy"
+          decoding="async"
+          width="640"
+          height="640"
+          sizes="(max-width: 860px) 100vw, 320px"
+        />
+      </div>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </article>
+  );
+}
+
+function QueryForm() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -15,6 +53,8 @@ export default function App() {
 
   const onChange = (event) => {
     const { name, value } = event.target;
+
+    setSubmitted(false);
     setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
@@ -28,6 +68,63 @@ export default function App() {
     });
   };
 
+  return (
+    <section className="form-card">
+      <h2>Send Your Query</h2>
+      <p className="form-copy">
+        Tell us your need, and our team will guide you with the right herbs,
+        spices, or medicine support.
+      </p>
+      <form onSubmit={onSubmit} className="query-form">
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={onChange}
+            placeholder="Your full name"
+            autoComplete="name"
+            required
+          />
+        </label>
+
+        <label>
+          Phone Number
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={onChange}
+            placeholder="Your contact number"
+            autoComplete="tel"
+            inputMode="tel"
+            required
+          />
+        </label>
+
+        <label>
+          Query
+          <textarea
+            name="query"
+            value={formData.query}
+            onChange={onChange}
+            placeholder="What would you like to know?"
+            rows={4}
+            required
+          />
+        </label>
+
+        <button type="submit">Submit Query</button>
+      </form>
+      {submitted && (
+        <p className="success-message">Thank you. Your query has been received.</p>
+      )}
+    </section>
+  );
+}
+
+export default function App() {
   return (
     <div className="page">
       <div className="glow glow-one" aria-hidden="true" />
@@ -64,81 +161,23 @@ export default function App() {
         <section className="products-card">
           <h2>Our Premium Offerings</h2>
           <p className="form-copy">
-            Explore our curated selection of deeply nourishing, sun-certified products.
+            Explore our curated selection of deeply nourishing, sun-certified
+            products.
           </p>
           <div className="product-grid">
-            <div className="product-item">
-              <div className="img-wrapper">
-                <img src={herbsImg} alt="Sun-charged Herbs & Spices" className="product-img" />
-              </div>
-              <h3>Sun-Charged Herbs</h3>
-              <p>Hand-picked, naturally sun-dried herbs and vibrant spices for your daily wellbeing.</p>
-            </div>
-            <div className="product-item">
-              <div className="img-wrapper">
-                <img src={oilsImg} alt="Pure Oils & Extracts" className="product-img" />
-              </div>
-              <h3>Pure Oils & Extracts</h3>
-              <p>Premium, freshly pressed plant extracts and essential oils offering maximum potency.</p>
-            </div>
+            {PRODUCTS.map((product) => (
+              <ProductCard key={product.title} {...product} />
+            ))}
           </div>
           <div className="call-to-action">
             <p>For full details, pricing, and orders, please call us.</p>
-            <a href={`tel:${CONTACT_NUMBER}`} className="button-like">Contact Us: {CONTACT_NUMBER}</a>
+            <a href={`tel:${CONTACT_NUMBER}`} className="button-like">
+              Contact Us: {CONTACT_NUMBER}
+            </a>
           </div>
         </section>
 
-        <section className="form-card">
-          <h2>Send Your Query</h2>
-          <p className="form-copy">
-            Tell us your need, and our team will guide you with the right
-            herbs, spices, or medicine support.
-          </p>
-          <form onSubmit={onSubmit} className="query-form">
-            <label>
-              Name
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={onChange}
-                placeholder="Your full name"
-                required
-              />
-            </label>
-
-            <label>
-              Phone Number
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={onChange}
-                placeholder="Your contact number"
-                required
-              />
-            </label>
-
-            <label>
-              Query
-              <textarea
-                name="query"
-                value={formData.query}
-                onChange={onChange}
-                placeholder="What would you like to know?"
-                rows={4}
-                required
-              />
-            </label>
-
-            <button type="submit">Submit Query</button>
-          </form>
-          {submitted && (
-            <p className="success-message">
-              Thank you. Your query has been received.
-            </p>
-          )}
-        </section>
+        <QueryForm />
       </main>
     </div>
   );
