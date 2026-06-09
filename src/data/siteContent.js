@@ -16,61 +16,6 @@ export const PRODUCT_CATEGORIES = [
   "Women's Wellness"
 ];
 
-export const QUALITY_ASSURANCES = [
-  "Ingredient sourcing from verified farms",
-  "Small-batch processing for freshness",
-  "Traditional formulation review",
-  "Clear usage guidance on every product"
-];
-
-export const PRODUCTS = [
-  {
-    sku: "SC-MOR-250",
-    imageKey: "herbs",
-    category: "Immunity Care",
-    title: "Sun-Charged Moringa Blend",
-    alt: "Sun-charged herbs and moringa leaves",
-    basePrice: 540,
-    packSize: "250g",
-    priceHint: "From ₹540 / 250g",
-    benefits: ["Daily vitality", "Natural detox", "Plant protein support"],
-    ingredients: "Moringa leaf, dry ginger, amla, tulsi",
-    usage: "1 tsp with warm water after breakfast.",
-    certifications: ["GMP", "Lab Tested"],
-    doshaSupport: "Vata-Pitta balancing"
-  },
-  {
-    sku: "CP-PR-100",
-    imageKey: "oils",
-    category: "Joint Wellness",
-    title: "Cold-Pressed Pain Relief Oil",
-    alt: "Ayurvedic therapeutic oils and extracts",
-    basePrice: 780,
-    packSize: "100ml",
-    priceHint: "From ₹780 / 100ml",
-    benefits: ["Joint comfort", "Muscle relaxation", "Night-time relief"],
-    ingredients: "Mahanarayan taila base, sesame oil, wintergreen extract",
-    usage: "Massage warm oil on affected area for 10 minutes.",
-    certifications: ["Traditional Formula", "Small Batch"],
-    doshaSupport: "Vata calming"
-  },
-  {
-    sku: "DA-CH-150",
-    imageKey: "herbs",
-    category: "Digestive Support",
-    title: "Digestive Agni Churna",
-    alt: "Digestive churna made with Ayurvedic spices",
-    basePrice: 390,
-    packSize: "150g",
-    priceHint: "From ₹390 / 150g",
-    benefits: ["Improves digestion", "Reduces bloating", "Supports metabolism"],
-    ingredients: "Ajwain, jeera, saunth, black salt, trikatu",
-    usage: "Half tsp after meals with lukewarm water.",
-    certifications: ["No Artificial Additives", "Sun-Dried Ingredients"],
-    doshaSupport: "Kapha-Vata support"
-  }
-];
-
 export const ARTICLES = [
   {
     id: "sun-charged-potency",
