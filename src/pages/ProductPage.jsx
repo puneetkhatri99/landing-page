@@ -9,7 +9,7 @@ function Section({ title, children }) {
   );
 }
 
-export default function ProductPage({ product, onBack, onAddToInquiry }) {
+export default function ProductPage({ product, onBack }) {
   if (!product) {
     return (
       <main className="page product-page">
@@ -64,9 +64,6 @@ export default function ProductPage({ product, onBack, onAddToInquiry }) {
                 <li key={benefit}>{benefit}</li>
               ))}
             </ul>
-            <button type="button" onClick={() => onAddToInquiry(product.sku)}>
-              Add to Inquiry
-            </button>
           </div>
         </div>
 

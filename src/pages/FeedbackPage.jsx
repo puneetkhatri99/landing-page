@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DEFAULT_REVIEWS } from "../data/siteContent";
 
 const REVIEW_STORAGE_KEY = "ayurveda_customer_reviews_v1";
 
-export default function FeedbackPage({ onBackHome, onReviewsChange }) {
+export default function FeedbackPage() {
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState(DEFAULT_REVIEWS);
   const [formData, setFormData] = useState({ name: "", location: "", quote: "", rating: "5" });
   const [saved, setSaved] = useState(false);
@@ -13,15 +15,13 @@ export default function FeedbackPage({ onBackHome, onReviewsChange }) {
       const stored = JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY) || "[]");
       if (Array.isArray(stored) && stored.length) {
         setReviews(stored);
-        onReviewsChange?.(stored);
         return;
       }
     } catch {
       // fall back to defaults below
     }
     setReviews(DEFAULT_REVIEWS);
-    onReviewsChange?.(DEFAULT_REVIEWS);
-  }, [onReviewsChange]);
+  }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -34,7 +34,6 @@ export default function FeedbackPage({ onBackHome, onReviewsChange }) {
     const nextReviews = [newReview, ...reviews].slice(0, 9);
     setReviews(nextReviews);
     localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(nextReviews));
-    onReviewsChange?.(nextReviews);
     setSaved(true);
     setFormData({ name: "", location: "", quote: "", rating: "5" });
   };
@@ -42,7 +41,7 @@ export default function FeedbackPage({ onBackHome, onReviewsChange }) {
   return (
     <main className="page product-page">
       <section className="panel detail-shell feedback-shell">
-        <button type="button" className="link-button back-link" onClick={onBackHome}>
+        <button type="button" className="link-button back-link" onClick={() => navigate("/")}>
           Back to Home
         </button>
 
