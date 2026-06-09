@@ -7,9 +7,8 @@ export const LANGUAGE_OPTIONS = {
 
 export const LANDING_COPY = {
   en: {
-    eyebrow: "Authentic Ayurvedic Wellness",
+    eyebrow: "SHREE RAM HERBS",
     title: "Crafted by Nature and Tradition",
-    heroCopy: "Explore clinically informed Ayurvedic products with transparent ingredients, clear usage guidance, and expert support for every order.",
     call: "Call",
     whatsapp: "WhatsApp Consultation",
     feedback: "Customer Feedback",
@@ -30,9 +29,8 @@ export const LANDING_COPY = {
     querySuccess: "Thank you. Your message was sent successfully."
   },
   hi: {
-    eyebrow: "प्रामाणिक आयुर्वेदिक कल्याण",
+    eyebrow: "श्री राम घटक",
     title: "प्रकृति और परंपरा से निर्मित",
-    heroCopy: "क्लिनिकली सूचित आयुर्वेदिक उत्पाद देखें, जिनमें पारदर्शी सामग्री, स्पष्ट उपयोग मार्गदर्शन, और हर ऑर्डर के लिए विशेषज्ञ सहायता शामिल है।",
     call: "कॉल करें",
     whatsapp: "व्हाट्सऐप पर परामर्श",
     feedback: "ग्राहक प्रतिक्रिया",

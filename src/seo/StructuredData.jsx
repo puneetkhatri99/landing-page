@@ -7,7 +7,7 @@ function buildOrganizationJsonLd(contactNumber) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Sun-Charged Ayurvedic Wellness",
+    name: "SHEE RAM HERBS",
     description: "Premium Ayurvedic herbs, oils, and wellness guidance.",
     telephone: contactNumber,
     contactPoint: {
@@ -27,7 +27,7 @@ function buildProductJsonLd(products) {
     name: product.title || product.name,
     description: product.benefits.join(", "),
     category: product.category,
-    brand: "Sun-Charged Ayurvedic Wellness",
+    brand: "SHEE RAM HERBS",
     offers: {
       "@type": "Offer",
       priceCurrency: "INR",

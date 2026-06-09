@@ -167,7 +167,6 @@ export default function LandingPage() {
       <header className="hero">
         <p className="eyebrow">{copy.eyebrow}</p>
         <h1>{copy.title}</h1>
-        <p className="hero-copy">{copy.heroCopy}</p>
         <div className="hero-actions">
           <a href={`tel:${CONTACT_NUMBER}`} className="button-like">{copy.call} {CONTACT_NUMBER}</a>
           <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="secondary-link">{copy.whatsapp}</a>
