@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_REVIEWS } from "../data/siteContent";
+import { useLanguage } from "../context/LanguageContext";
+import { FEEDBACK_COPY, getLocalizedReviews } from "../data/localization";
 
 const REVIEW_STORAGE_KEY = "ayurveda_customer_reviews_v1";
 
 export default function FeedbackPage() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const copy = FEEDBACK_COPY[language];
   const [reviews, setReviews] = useState(DEFAULT_REVIEWS);
   const [formData, setFormData] = useState({ name: "", location: "", quote: "", rating: "5" });
   const [saved, setSaved] = useState(false);
@@ -29,7 +33,8 @@ export default function FeedbackPage() {
       name: formData.name.trim(),
       location: formData.location.trim(),
       quote: formData.quote.trim(),
-      rating: Number(formData.rating)
+      rating: Number(formData.rating),
+      source: "user"
     };
     const nextReviews = [newReview, ...reviews].slice(0, 9);
     setReviews(nextReviews);
@@ -42,17 +47,17 @@ export default function FeedbackPage() {
     <main className="page product-page">
       <section className="panel detail-shell feedback-shell">
         <button type="button" className="link-button back-link" onClick={() => navigate("/")}>
-          Back to Home
+          {copy.backToHome}
         </button>
 
         <header className="feedback-header">
-          <p className="eyebrow">Customer Feedback</p>
-          <h1>Reviews and Feedback</h1>
-          <p className="section-copy">Read what customers say and leave your own feedback for the catalog.</p>
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h1>{copy.title}</h1>
+          <p className="section-copy">{copy.copy}</p>
         </header>
 
         <div className="review-grid">
-          {reviews.map((review, index) => (
+          {getLocalizedReviews(reviews, language).map((review, index) => (
             <article key={`${review.name}-${index}`} className="review-card">
               <p className="rating">{"★".repeat(review.rating || 5)}</p>
               <p className="quote">"{review.quote}"</p>
@@ -62,9 +67,9 @@ export default function FeedbackPage() {
         </div>
 
         <form className="review-form" onSubmit={onSubmit}>
-          <h3>Share Your Feedback</h3>
+          <h3>{copy.formTitle}</h3>
           <label>
-            Name
+            {copy.nameLabel}
             <input
               type="text"
               value={formData.name}
@@ -72,12 +77,12 @@ export default function FeedbackPage() {
                 setSaved(false);
                 setFormData((p) => ({ ...p, name: e.target.value }));
               }}
-              placeholder="Your name"
+              placeholder={copy.namePlaceholder}
               required
             />
           </label>
           <label>
-            City
+            {copy.cityLabel}
             <input
               type="text"
               value={formData.location}
@@ -85,12 +90,12 @@ export default function FeedbackPage() {
                 setSaved(false);
                 setFormData((p) => ({ ...p, location: e.target.value }));
               }}
-              placeholder="Your city"
+              placeholder={copy.cityPlaceholder}
               required
             />
           </label>
           <label>
-            Rating
+            {copy.ratingLabel}
             <select
               value={formData.rating}
               onChange={(e) => {
@@ -98,13 +103,13 @@ export default function FeedbackPage() {
                 setFormData((p) => ({ ...p, rating: e.target.value }));
               }}
             >
-              <option value="5">5 - Excellent</option>
-              <option value="4">4 - Very Good</option>
-              <option value="3">3 - Good</option>
+              <option value="5">{language === "hi" ? "5 - उत्कृष्ट" : "5 - Excellent"}</option>
+              <option value="4">{language === "hi" ? "4 - बहुत अच्छा" : "4 - Very Good"}</option>
+              <option value="3">{language === "hi" ? "3 - अच्छा" : "3 - Good"}</option>
             </select>
           </label>
           <label>
-            Feedback
+            {copy.feedbackLabel}
             <textarea
               value={formData.quote}
               onChange={(e) => {
@@ -112,12 +117,12 @@ export default function FeedbackPage() {
                 setFormData((p) => ({ ...p, quote: e.target.value }));
               }}
               rows={3}
-              placeholder="How was your experience?"
+              placeholder={copy.feedbackPlaceholder}
               required
             />
           </label>
-          <button type="submit">Submit Review</button>
-          {saved && <p className="success-message">Thank you for sharing your feedback.</p>}
+          <button type="submit">{copy.submit}</button>
+          {saved && <p className="success-message">{copy.success}</p>}
         </form>
       </section>
     </main>

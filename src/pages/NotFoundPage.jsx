@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
+import { NOT_FOUND_COPY } from "../data/localization";
 
 export default function NotFoundPage() {
+  const { language } = useLanguage();
+  const copy = NOT_FOUND_COPY[language];
+
   return (
     <main className="page not-found-page">
       <section className="panel not-found-shell">
-        <p className="eyebrow">Page Not Found</p>
-        <h1>We could not find that page</h1>
-        <p className="section-copy">
-          The page may have moved or the address may be incorrect. Return to the home page to browse the Ayurvedic catalog.
-        </p>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h1>{copy.title}</h1>
+        <p className="section-copy">{copy.copy}</p>
         <Link to="/" className="button-like not-found-home-button">
-          Home
+          {copy.home}
         </Link>
       </section>
     </main>

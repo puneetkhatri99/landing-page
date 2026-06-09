@@ -67,20 +67,44 @@ export const DEFAULT_REVIEWS = [
     location: "Jaipur",
     quote:
       "Their digestive blend worked gently and effectively. I now reorder monthly for my family.",
-    rating: 5
+    rating: 5,
+    source: "default",
+    translations: {
+      hi: {
+        name: "ऋतिका शर्मा",
+        location: "जयपुर",
+        quote: "उनका पाचन मिश्रण बहुत कोमल और प्रभावी रहा। अब मैं अपने परिवार के लिए हर महीने दोबारा ऑर्डर करती हूं।"
+      }
+    }
   },
   {
     name: "Amit Verma",
     location: "Delhi",
     quote:
       "The joint oil quality is premium. Visible relief within a week and excellent consultation support.",
-    rating: 5
+    rating: 5,
+    source: "default",
+    translations: {
+      hi: {
+        name: "अमित वर्मा",
+        location: "दिल्ली",
+        quote: "जॉइंट ऑयल की गुणवत्ता बहुत बढ़िया है। एक हफ्ते में स्पष्ट राहत मिली और परामर्श सहायता भी शानदार रही।"
+      }
+    }
   },
   {
     name: "Neha Kulkarni",
     location: "Pune",
     quote:
       "I appreciated the transparent ingredient details and practical usage guidance.",
-    rating: 4
+    rating: 4,
+    source: "default",
+    translations: {
+      hi: {
+        name: "नेहा कुलकर्णी",
+        location: "पुणे",
+        quote: "मुझे सामग्री की स्पष्ट जानकारी और उपयोग के व्यावहारिक सुझाव बहुत अच्छे लगे।"
+      }
+    }
   }
 ];

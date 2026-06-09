@@ -4,14 +4,21 @@ import SeoStructuredData from "../seo/StructuredData";
 import {
   CONTACT_NUMBER,
   PRODUCT_CATEGORIES,
-  STATS,
   WHATSAPP_NUMBER
 } from "../data/siteContent";
 import { PRODUCTS } from "../constants/products";
+import { useLanguage } from "../context/LanguageContext";
+import {
+  LANDING_COPY,
+  getLocalizedCategories,
+  getLocalizedProduct,
+  getLocalizedStats
+} from "../data/localization";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Namaste%2C%20I%20want%20to%20know%20about%20your%20Ayurvedic%20products.`;
 
-function ProductCard({ product, to, priority = false }) {
-  const { title, name, alt, priceHint, benefits } = product;
+function ProductCard({ product, to, priority = false, language }) {
+  const localizedProduct = getLocalizedProduct(product, language);
+  const { title, name, alt, priceHint, benefits } = localizedProduct;
 
   return (
     <Link to={to} className="product-card reveal">
@@ -40,8 +47,15 @@ async function submitQuery(formData) {
   return { ok: true };
 }
 
-function QueryForm() {
-  const [formData, setFormData] = useState({ name: "", phone: "", category: "Herbs & Powders", message: "" });
+function QueryForm({ language }) {
+  const copy = LANDING_COPY[language];
+  const localizedCategories = getLocalizedCategories(language);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    category: PRODUCT_CATEGORIES[0],
+    message: ""
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = async (event) => {
@@ -49,26 +63,89 @@ function QueryForm() {
     const result = await submitQuery(formData);
     if (!result?.ok) return;
     setSubmitted(true);
-    setFormData({ name: "", phone: "", category: "Herbs & Powders", message: "" });
+    setFormData({ name: "", phone: "", category: PRODUCT_CATEGORIES[0], message: "" });
   };
 
   return (
     <section className="panel reveal">
-      <h2>Talk to an Ayurvedic Expert</h2>
-      <p className="section-copy">Ask for product recommendations, dosage guidance, and custom wellness plans for your needs.</p>
+      <h2>{copy.expertTitle}</h2>
+      <p className="section-copy">{copy.expertCopy}</p>
       <form onSubmit={onSubmit} className="query-form">
-        <label>Name<input type="text" name="name" value={formData.name} onChange={(e) => { setSubmitted(false); setFormData((p) => ({ ...p, name: e.target.value })); }} placeholder="Your full name" autoComplete="name" required /></label>
-        <label>Phone Number<input type="tel" name="phone" value={formData.phone} onChange={(e) => { setSubmitted(false); setFormData((p) => ({ ...p, phone: e.target.value })); }} placeholder="Your contact number" autoComplete="tel" inputMode="tel" required /></label>
-        <label>Product Category<select name="category" value={formData.category} onChange={(e) => { setSubmitted(false); setFormData((p) => ({ ...p, category: e.target.value })); }}>{PRODUCT_CATEGORIES.map((category) => <option key={category} value={category}>{category}</option>)}</select></label>
-        <label>Your Query<textarea name="message" value={formData.message} onChange={(e) => { setSubmitted(false); setFormData((p) => ({ ...p, message: e.target.value })); }} rows={4} placeholder="Share your concern or requirement." required /></label>
-        <button type="submit">Submit Query</button>
+        <label>
+          {copy.queryName}
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={(e) => {
+              setSubmitted(false);
+              setFormData((p) => ({ ...p, name: e.target.value }));
+            }}
+            placeholder={copy.queryNamePlaceholder}
+            autoComplete="name"
+            required
+          />
+        </label>
+        <label>
+          {copy.queryPhone}
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={(e) => {
+              setSubmitted(false);
+              setFormData((p) => ({ ...p, phone: e.target.value }));
+            }}
+            placeholder={copy.queryPhonePlaceholder}
+            autoComplete="tel"
+            inputMode="tel"
+            required
+          />
+        </label>
+        <label>
+          {copy.queryCategory}
+          <select
+            name="category"
+            value={formData.category}
+            onChange={(e) => {
+              setSubmitted(false);
+              setFormData((p) => ({ ...p, category: e.target.value }));
+            }}
+          >
+            {PRODUCT_CATEGORIES.map((category, index) => (
+              <option key={category} value={category}>
+                {localizedCategories[index]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {copy.queryMessage}
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={(e) => {
+              setSubmitted(false);
+              setFormData((p) => ({ ...p, message: e.target.value }));
+            }}
+            rows={4}
+            placeholder={copy.queryMessagePlaceholder}
+            required
+          />
+        </label>
+        <button type="submit">{copy.submitQuery}</button>
       </form>
-      {submitted && <p className="success-message">Thank you. Your message was sent successfully.</p>}
+      {submitted && <p className="success-message">{copy.querySuccess}</p>}
     </section>
   );
 }
 
 export default function LandingPage() {
+  const { language } = useLanguage();
+  const copy = LANDING_COPY[language];
+  const localizedStats = getLocalizedStats(language);
+  const localizedCategories = getLocalizedCategories(language);
+
   useEffect(() => {
     const firstProductImage = PRODUCTS[0]?.images?.[0]?.src;
     if (!firstProductImage) return undefined;
@@ -88,28 +165,28 @@ export default function LandingPage() {
     <div className="page">
       <SeoStructuredData />
       <header className="hero">
-        <p className="eyebrow">Authentic Ayurvedic Wellness</p>
-        <h1>Crafted by Nature and Tradition</h1>
-        <p className="hero-copy">Explore clinically informed Ayurvedic products with transparent ingredients, clear usage guidance, and expert support for every order.</p>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h1>{copy.title}</h1>
+        <p className="hero-copy">{copy.heroCopy}</p>
         <div className="hero-actions">
-          <a href={`tel:${CONTACT_NUMBER}`} className="button-like">Call {CONTACT_NUMBER}</a>
-          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="secondary-link">WhatsApp Consultation</a>
-          <Link to="/feedback" className="secondary-link">Customer Feedback</Link>
+          <a href={`tel:${CONTACT_NUMBER}`} className="button-like">{copy.call} {CONTACT_NUMBER}</a>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="secondary-link">{copy.whatsapp}</a>
+          <Link to="/feedback" className="secondary-link">{copy.feedback}</Link>
         </div>
-        <div className="hero-stats">{STATS.map((stat) => <article key={stat.label} className="stat-card"><p className="stat-label">{stat.label}</p><p className="stat-value">{stat.value}</p></article>)}</div>
+        <div className="hero-stats">{localizedStats.map((stat) => <article key={stat.label} className="stat-card"><p className="stat-label">{stat.label}</p><p className="stat-value">{stat.value}</p></article>)}</div>
       </header>
 
       <main className="content">
 
         <section className="panel reveal">
-          <h2>Shop by Wellness Goals</h2>
-          <p className="section-copy">Category-led architecture keeps the experience ready for future ecommerce expansion.</p>
-          <div className="chip-grid">{PRODUCT_CATEGORIES.map((category) => <span key={category} className="category-chip">{category}</span>)}</div>
+          <h2>{copy.goalsTitle}</h2>
+          <p className="section-copy">{copy.goalsCopy}</p>
+          <div className="chip-grid">{PRODUCT_CATEGORIES.map((category, index) => <span key={category} className="category-chip">{localizedCategories[index]}</span>)}</div>
         </section>
 
         <section className="panel reveal">
-          <h2>Featured Ayurvedic Products</h2>
-          <p className="section-copy">Every product includes benefit highlights, ingredient transparency, and usage instructions to build trust before purchase.</p>
+          <h2>{copy.productsTitle}</h2>
+          <p className="section-copy">{copy.productsCopy}</p>
           <div className="product-grid">
             {PRODUCTS.map((product) => (
               <ProductCard
@@ -117,12 +194,13 @@ export default function LandingPage() {
                 product={product}
                 priority={product.sku === PRODUCTS[0]?.sku}
                 to={`/products/${product.slug}`}
+                language={language}
               />
             ))}
           </div>
         </section>
 
-        <QueryForm />
+        <QueryForm language={language} />
       </main>
     </div>
   );

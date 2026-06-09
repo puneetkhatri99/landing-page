@@ -39,6 +39,46 @@ h3 {
   padding: 1rem 0 2rem;
 }
 
+.site-toolbar {
+  width: min(1100px, 92%);
+  margin: 0 auto 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.language-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(36, 83, 58, 0.16);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow);
+}
+
+.language-toggle-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--green-700);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 0.6rem 0.9rem;
+  min-width: 3.6rem;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.language-toggle-button.is-active {
+  background: linear-gradient(135deg, var(--green-900), var(--green-700));
+  color: #f8ffef;
+}
+
+.language-toggle-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .hero,
 .panel {
   border: 1px solid rgba(36, 83, 58, 0.08);
