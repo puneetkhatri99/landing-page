@@ -1,6 +1,6 @@
-import shilajeetImg from "../assets/shilajit.png";
-import jointOilImg from "../assets/oil.png";
-import skyFruitImg from "../assets/sky_fruit.png";
+import shilajeetImg from "../assets/shilajit.webp";
+import jointOilImg from "../assets/oil.webp";
+import skyFruitImg from "../assets/sky_fruit.webp";
 
 export const PRODUCTS = [
   {

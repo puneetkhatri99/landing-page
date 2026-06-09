@@ -28,7 +28,7 @@ function getProductSlugFromRoute(route) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
-function ProductCard({ product, onOpen }) {
+function ProductCard({ product, onOpen, priority = false }) {
   const { title, name, alt, priceHint, benefits } = product;
 
   return (
@@ -45,7 +45,17 @@ function ProductCard({ product, onOpen }) {
       }}
     >
       <div className="img-wrapper">
-        <img src={product.images?.[0]?.src} alt={alt} className="product-img" loading="lazy" decoding="async" width="640" height="640" sizes="(max-width: 860px) 100vw, 320px" />
+        <img
+          src={product.images?.[0]?.src}
+          alt={alt}
+          className="product-img"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          decoding="async"
+          width="640"
+          height="640"
+          sizes="(max-width: 860px) 100vw, 320px"
+        />
       </div>
       <p className="price-hint">{priceHint}</p>
       <h3>{title || name}</h3>
@@ -133,6 +143,23 @@ export default function LandingPage() {
     localStorage.setItem(INQUIRY_CART_KEY, JSON.stringify(inquiryItems));
   }, [inquiryItems]);
 
+  useEffect(() => {
+    if (route !== "/") return undefined;
+
+    const firstProductImage = PRODUCTS[0]?.images?.[0]?.src;
+    if (!firstProductImage) return undefined;
+
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = firstProductImage;
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [route]);
+
   const addToInquiry = (sku) => {
     const product = PRODUCTS.find((item) => item.sku === sku);
     if (!product) return;
@@ -208,6 +235,7 @@ export default function LandingPage() {
               <ProductCard
                 key={product.sku}
                 product={product}
+                priority={product.sku === PRODUCTS[0]?.sku}
                 onOpen={() => openProduct(product.slug)}
               />
             ))}

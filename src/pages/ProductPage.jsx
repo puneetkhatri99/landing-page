@@ -38,7 +38,16 @@ export default function ProductPage({ product, onBack, onAddToInquiry }) {
           <div className="detail-gallery">
             {gallery.map((image, index) => (
               <figure key={`${image.src}-${index}`} className="detail-image-frame">
-                <img src={image.src} alt={image.alt || product.alt} className="detail-image" width="640" height="640" />
+                <img
+                  src={image.src}
+                  alt={image.alt || product.alt}
+                  className="detail-image"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  decoding="async"
+                  width="640"
+                  height="640"
+                />
               </figure>
             ))}
           </div>
